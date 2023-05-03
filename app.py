@@ -3,7 +3,7 @@ import pickle
 import streamlit as st
 import requests
 
-
+st.set_page_config(layout="wide")
 def fetch_poster(movie_id):
     url = "https://api.themoviedb.org/3/movie/{}?api_key=8265bd1679663a7ea12ac168da84d2e8&language=en-US".format(movie_id)
     data = requests.get(url)
@@ -32,27 +32,81 @@ movies=pd.DataFrame(movies_dict)
 
 similarity=pickle.load(open('similarity.pkl','rb'))
 
-st.title('Movie Recommender System')
-movie_list=movies['title'].values
-selected_movie_name=st.selectbox(
-'Select a movie from the dropdown',
-movie_list)
 
-if st.button('Recommend'):
+st.markdown("<h1 style='text-align: center;'>Movie Recommender System</h1>",unsafe_allow_html=True)
+st.write("")
+st.write("")
+movie_list=movies['title'].values
+selected_movie_name=st.selectbox('Select a movie from the dropdown',movie_list)
+st.write("")
+if selected_movie_name:
     names,poster=recommend(selected_movie_name)
-    col1, col2, col3, col4, col5=st.columns(5)
+    # col1, col2, col3, col4, col5,col6,col7,col8,col9=st.columns(9)
+    # with col1:
+    #     st.write(names[0])
+    #     st.image(poster[0],width=180)
+    # with col3:
+    #     st.text(names[1])
+    #     st.image(poster[1],width=180)
+    # with col5:
+    #     st.text(names[2])
+    #     st.image(poster[2],width=180)
+    # with col7:
+    #     st.text(names[3])
+    #     st.image(poster[3],width=180)
+    # with col9:
+    #     st.text(names[4])
+    #     st.image(poster[4],width=180)
+    col1,col2,col3,col4,col5=st.columns(5)
     with col1:
-        st.text(names[0])
-        st.image(poster[0])
+        if (len(names[0]) < 40):
+            st.write(names[0])
+            st.write("")
+            st.write("")
+        else:
+            st.write(names[0])
+        coll1,coll2=col1.columns(2)
+        with coll1:
+         st.image(poster[0], width=180)
     with col2:
-        st.text(names[1])
-        st.image(poster[1])
+        if (len(names[1]) < 38):
+            st.write(names[1])
+            st.write("")
+            st.write("")
+        else:
+            st.write(names[1])
+        coll1, coll2 = col2.columns(2)
+        with coll1:
+            st.image(poster[1], width=180)
     with col3:
-        st.text(names[2])
-        st.image(poster[2])
+        if (len(names[2]) < 38):
+            st.write(names[2])
+            st.write("")
+            st.write("")
+        else:
+            st.write(names[2])
+        coll1, coll2 = col3.columns(2)
+        with coll1:
+            st.image(poster[2], width=180)
     with col4:
-        st.text(names[3])
-        st.image(poster[3])
+        if(len(names[3])<38):
+            st.write(names[3])
+            st.write("")
+            st.write("")
+        else:
+            st.write(names[3])
+        coll1, coll2 = col4.columns(2)
+        with coll1:
+            st.image(poster[3], width=180)
     with col5:
-        st.text(names[4])
-        st.image(poster[4])
+        if (len(names[4]) < 38):
+            st.write(names[4])
+            st.write("")
+            st.write("")
+        else:
+            st.write(names[4])
+        coll1, coll2 = col5.columns(2)
+        with coll1:
+            st.image(poster[4], width=180)
+        st.write("")
+        st.caption("Made in India with ❤️ by Manul Rastogi")
